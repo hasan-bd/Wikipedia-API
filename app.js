@@ -38,7 +38,13 @@ app.post('/articles',function(req,res){
     title: req.body.title,
     content: req.body.content
   })
-  newArticle.save()
+  newArticle.save(function(err){
+    if(!err){
+      res.send("Successfully added new article into collecions")
+    }else{
+      res.send(err)
+    }
+  })
 })
 
 
