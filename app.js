@@ -21,7 +21,7 @@ const articleSchema ={
  const Article = mongoose.model("Article", articleSchema)
 
 
-app.get('/atricles',function(req,res){
+app.get('/articles',function(req,res){
   Article.find(function(err,foundArticles){
     if(!err){
       res.send(foundArticles)
@@ -30,6 +30,15 @@ app.get('/atricles',function(req,res){
     }
 
   })
+})
+
+
+app.post('/articles',function(req,res){
+  const newArticle = new Article({
+    title: req.body.title,
+    content: req.body.content
+  })
+  newArticle.save()
 })
 
 
