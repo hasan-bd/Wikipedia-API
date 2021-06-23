@@ -20,43 +20,39 @@ const articleSchema ={
 }
  const Article = mongoose.model("Article", articleSchema)
 
+app.route('/articles')
+  .get(function(req,res){
+    Article.find(function(err,foundArticles){
+      if(!err){
+        res.send(foundArticles)
+      }else{
+        res.send(err)
+      }
 
-app.get('/articles',function(req,res){
-  Article.find(function(err,foundArticles){
-    if(!err){
-      res.send(foundArticles)
-    }else{
-      res.send(err)
-    }
-
+    })
   })
-})
-
-
-app.post('/articles',function(req,res){
-  const newArticle = new Article({
-    title: req.body.title,
-    content: req.body.content
+  .post(function(req,res){
+    const newArticle = new Article({
+      title: req.body.title,
+      content: req.body.content
+    })
+    newArticle.save(function(err){
+      if(!err){
+        res.send("Successfully added new article into collecions")
+      }else{
+        res.send(err)
+      }
+    })
   })
-  newArticle.save(function(err){
-    if(!err){
-      res.send("Successfully added new article into collecions")
-    }else{
-      res.send(err)
-    }
+  .delete(function(req,res){
+    Article.deleteMany(function(err){
+      if(!err){
+        res.send("Successfully deleted all Articles.")
+      }else{
+        res.send(err)
+      }
+    })
   })
-})
-
-
-app.delete('/articles',function(req,res){
-  Article.deleteMany(function(err){
-    if(!err){
-      res.send("Successfully deleted all Articles.")
-    }else{
-      res.send(err)
-    }
-  })
-})
 
 
 app.listen(3000, function() {
